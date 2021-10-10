@@ -283,7 +283,7 @@ public class MakeChangeProject {
 	public static String convertChangeToString(int twenty, int ten, int five, int one, int quarter, 
 	   										int dime, int nickel, int penny, double itemPrice, double cashGiven) {
 		//For DA the Cheese!
-		String totalAmountBreakDown = "Amount: " + itemPrice + ", Tendered: "+cashGiven+ ", Result: ";
+		String totalAmountBreakDown = String.format("Amount: %.2f, Tendered: %.2f, Result: ",itemPrice,cashGiven);
 		
 		if(twenty > 0) {
 			if( twenty > 1) {
