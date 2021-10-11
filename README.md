@@ -3,11 +3,12 @@
 
 
 ## **Description**
-This make change application will take two inputs from user. U+000A
+This make change application will take two inputs from user.
+
 * **First**: will ask the user the cost of the item(s) they are purchasing.
 * **Second**: will ask the user for how much they are going to pay with.
 * **Third**: will display a message if too little money was given or exact change was given.
-* **Fourth**: If the amount tendered is more than the cost of the item, display the number of bills and coins that should be given to the customer. 
+* **Fourth**: If the amount tendered is more than the cost of the item, display the number of bills and coins that should be given to the customer.
 * **Fifth**: Create a while loop allowing the cashier to continue allowing customer to purchase items.
 * **Sixth**: reduce amount of code in main itself.
 
@@ -34,6 +35,6 @@ then gives response as needed. Otherwise calls calculateChange() method.
 10. **lastStringCorrection()**, fixes anything else besides the penny ending in a "," when it needs to be a "."
 
 #### **Reason for code**
-Project for training.
-Code should be used as examples.
-Future development of this class most unlikely.
+* Project for training.
+* Code should be used as examples.
+* Future development of this class most unlikely.
