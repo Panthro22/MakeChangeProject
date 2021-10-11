@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class MakeChangeProject {
 	
 	private static Scanner keyBoard = new Scanner(System.in);
+	
 	/*
 	 * Part 1: need to prompt user/cashier to input the item price. 
 	 * Part 2: need to prompt user/cashier to input the amount given to pay for item. 
@@ -14,9 +15,6 @@ public class MakeChangeProject {
 	 *         amount... IE... not giving back 150 pennies for $1.50 over item price. 
 	 * Part 5: Create a while loop allowing the cashier to continue allowing customer to
 	 *         purchase items. 
-	 * part 6: set customer to certain amount of cash on hand
-	 *         IE(wallet/purse). 
-	 *     6a: method to track customer's wallet. 
 	 * Part 7: reduce amount of code in main itself.
 	 */
 
@@ -32,29 +30,42 @@ public class MakeChangeProject {
 		System.out.println("Program shutting down....");
 		keyBoard.close();
 	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
 	/* 
 	 * This method handles the operation of the menu options.
 	 * Will also call other methods to print out borders for information being system out printed as well/\.
 	 */
+
 	public static void menuOption() {
 		
-		double itemPrice; // Price of Item customer is buying
-		double cashGiven; // Cash the customer gave the cashier
+		double itemPrice = 0.00; // Price of Item customer is buying
+		double cashGiven = 0.00; // Cash the customer gave the cashier
 		//int stringLength=0;
-		
+//		boolean validInput = false;
 		
 		topAndBottomBorderBuilder("Please enter the merchandise price?".length());
 		leftAndRightBorderBuilder("Please enter the merchandise price?".length() ,"Please enter the merchandise price?");
 		topAndBottomBorderBuilder("Please enter the merchandise price?".length());
-		
-		System.out.print("*\n*");
-		itemPrice = keyBoard.nextDouble();
-		keyBoard.nextLine();
-		System.out.println("*");
-		
+//		do {
+//			validInput = keyBoard.hasNextDouble();
+//			if(validInput) {
+				System.out.print("*\n*");
+				itemPrice = keyBoard.nextDouble();
+				keyBoard.nextLine();
+				System.out.println("*");
+//				validInput = true;
+//				break;
+//			}
+//			else {
+//				topAndBottomBorderBuilder("Sorry, incorrect data type entered, Please enter the merchandise price?".length());
+//				leftAndRightBorderBuilder("Sorry, incorrect data type entered, Please enter the merchandise price?".length() ,"Sorry, incorrect data type entered, Please enter the merchandise price?");
+//				topAndBottomBorderBuilder("Sorry, incorrect data type entered, Please enter the merchandise price?".length());
+//				validInput = keyBoard.hasNextDouble();
+//			}
+			
+//			}while(!validInput);
 		topAndBottomBorderBuilder("Please enter the cash amount received from the customer? ".length());
 		leftAndRightBorderBuilder("Please enter the cash amount received from the customer? ".length(),"Please enter the cash amount received from the customer? ");
 		topAndBottomBorderBuilder("Please enter the cash amount received from the customer? ".length());
@@ -71,9 +82,32 @@ public class MakeChangeProject {
 		} 
 		
 		else if (cashGiven < itemPrice) {
-			topAndBottomBorderBuilder("Please inform the customer that not enough cash was given to purchase the merchandise.".length());
-			leftAndRightBorderBuilder("Please inform the customer that not enough cash was given to purchase the merchandise.".length(),"Please inform the customer that not enough cash was given to purchase the merchandise.");
-			topAndBottomBorderBuilder("Please inform the customer that not enough cash was given to purchase the merchandise.".length());
+			while(cashGiven < itemPrice) {
+				topAndBottomBorderBuilder("Please inform the customer that not enough cash was given to purchase the merchandise.".length());
+				leftAndRightBorderBuilder("Please inform the customer that not enough cash was given to purchase the merchandise.".length(),"Please inform the customer that not enough cash was given to purchase the merchandise.");
+				topAndBottomBorderBuilder("Please inform the customer that not enough cash was given to purchase the merchandise.".length());
+			
+				topAndBottomBorderBuilder("Please enter the additional cash amount received from the customer? ".length());
+				leftAndRightBorderBuilder("Please enter the additional cash amount received from the customer? ".length(),"Please enter the additional cash amount received from the customer? ");
+				topAndBottomBorderBuilder("Please enter the additional cash amount received from the customer? ".length());
+			
+				System.out.print("*\n*");
+				cashGiven += keyBoard.nextDouble();
+				keyBoard.nextLine();
+				System.out.println("*");
+			}
+			if (cashGiven == itemPrice) {
+				topAndBottomBorderBuilder("Exact change was given!".length());
+				leftAndRightBorderBuilder("Exact change was given!".length(),"Exact change was given!");
+				topAndBottomBorderBuilder("Exact change was given!".length());
+			}
+			else {	
+				System.out.println("");
+				topAndBottomBorderBuilder(calculateChange(itemPrice, cashGiven).length());
+				leftAndRightBorderBuilder(calculateChange(itemPrice, cashGiven).length(),lastStringCorrection(calculateChange(itemPrice, cashGiven)));// Receipt Output
+				topAndBottomBorderBuilder(calculateChange(itemPrice, cashGiven).length());
+				System.out.println("");
+			}
 			//System.out.println("Please inform the customer that not enough cash was given to purchase the merchandise.");
 		} 
 		
@@ -82,8 +116,9 @@ public class MakeChangeProject {
 			leftAndRightBorderBuilder("System is calculating the exact change to give back to customer...".length(),"System is calculating the exact change to give back to customer...");
 			topAndBottomBorderBuilder("System is calculating the exact change to give back to customer...".length());
 			//System.out.println("System is calculating the exact change to give back to customer...");
+			System.out.println("");
 			topAndBottomBorderBuilder(calculateChange(itemPrice, cashGiven).length());
-			leftAndRightBorderBuilder(calculateChange(itemPrice, cashGiven).length(),calculateChange(itemPrice, cashGiven));// Receipt Output
+			leftAndRightBorderBuilder(calculateChange(itemPrice, cashGiven).length(),lastStringCorrection(calculateChange(itemPrice, cashGiven)));// Receipt Output
 			topAndBottomBorderBuilder(calculateChange(itemPrice, cashGiven).length());
 			System.out.println("");
 			//System.out.println(calculateChange(itemPrice, cashGiven));
@@ -96,7 +131,11 @@ public class MakeChangeProject {
 	}
 	
 	
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/*
+	 * 
+	 */
 	
 	public static void topAndBottomBorderBuilder(int maxDataLength) {
 		
@@ -106,16 +145,34 @@ public class MakeChangeProject {
 		System.out.println("");
 	}
 	
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/*
+	 * 
+	 */
 	
 	public static void leftAndRightBorderBuilder(int maxDataLength, String outPrintedText) {
+		String spaceBetweenOutputAndBoxEdge = "";
 		
+		for (int stringLength = 0; stringLength < (maxDataLength - outPrintedText.length()+1); stringLength++) {
+			//if(stringLength < maxDataLength - outPrintedText.length()) {
+				spaceBetweenOutputAndBoxEdge +=" ";
+			//}
+//			else {
+//				spaceBetweenOutputAndBoxEdge += "  ";	//step space twice this time.		
+//			}
+		}
+			
 		printSpacerAndAstrik(maxDataLength);
-		System.out.println("* " + outPrintedText + " *");
+		System.out.println("* " + outPrintedText + spaceBetweenOutputAndBoxEdge+ "*");
 		printSpacerAndAstrik(maxDataLength);
 	}
 	
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/*
+	 * 
+	 */
 	
 	public static void printSpacerAndAstrik(int maxDataLength) {
 		System.out.print("*");
@@ -127,10 +184,12 @@ public class MakeChangeProject {
 	}
 	
 	
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/*
 	 * This method is to get a string response to whether or not they want to continue with the program.
 	 */
+
 	public static String getStringAnswer() {
 		String userResponse;
 		topAndBottomBorderBuilder("If would like to continue with the application please answer with a \"yes\", otherwise \"no\" will close the application for you. ".length());
@@ -150,38 +209,49 @@ public class MakeChangeProject {
 	}
 	
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/*
+	 * 
+	 */
+
 	public static boolean terminateApplication() {
-		 
+		 Boolean validInput = false;
 		 Boolean terminateApp = false;
-		 String userResponse = getStringAnswer();
-		 switch(userResponse) {
-		 case "yes":
-		 case "Yes":
-		 case "YEs":
-		 case "yES":
-		 case "yeS":
-		 case "YES":
-			 terminateApp = false;
-			 break;
-		 case "no":
-		 case "No":
-		 case "NO":
-			 terminateApp = true;
-			 break;
-		 default:
-			 System.out.println("Sorry an incorrect response was given.");
-			 System.out.println("Application is continuing to run");//Need to re-loop back into get response and getting a correct answer.
+		 while(!validInput) {
+			String userResponse = getStringAnswer();
+		 	switch(userResponse) {
+		 	case "yes":
+		 	case "Yes":
+		 	case "YEs":
+		 	case "yES":
+		 	case "yeS":
+		 	case "YeS":
+		 	case "YES":
+		 		validInput = true;
+			 	terminateApp = false;
+			 	break;
+		 	case "no":
+		 	case "No":
+		 	case "NO":
+		 		validInput = true;
+			 	terminateApp = true;
+			 	break;
+		 	default:
+			 	System.out.println("Sorry an incorrect response was given.");
+			 	//System.out.println("Please enter \"yes\" or \"no\": ");//Need to re-loop back into get response and getting a correct answer.
 			 
-		 }
-		 		
+		 	}
+		 }		
 		return terminateApp;
 	}
 	
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	//Method is to handle breaking down from largest bill possible to smallest cent as needed.
+	/*
+	 * Method is to handle breaking down from largest bill possible to smallest cent as needed.
+	 */
+
 	public static String calculateChange(double itemPrice, double cashGiven) {
 		double totalAmountToReturn = cashGiven - itemPrice +0.005;//).005 is to round up as needed for the penny value.
 		//System.out.println(totalAmountToReturn);
@@ -275,7 +345,8 @@ public class MakeChangeProject {
 		return totalAmountBreakDown;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/*
 	 * Converts all the information into a String format.
 	 */
@@ -362,12 +433,40 @@ public class MakeChangeProject {
 		
 		return totalAmountBreakDown;
 	}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public static String lastStringCorrection() {
+	/*
+	 * This method replaces the last character in a string to desired.
+	 */
+	
+	public static String lastStringCorrection(String draftOutput) {
+		int stringLength = draftOutput.length();
+		String finalStringOut="";
+		for(int stepThroughString = 0; stepThroughString < stringLength; stepThroughString++) {
+			if(stepThroughString < stringLength - 2) {
+				finalStringOut += draftOutput.charAt(stepThroughString);
+			}
+			else {
+				finalStringOut += ". ";
+				break;
+			}
+			
+		}
 		
 		
-		return "ops i did it again";
+		
+		return finalStringOut;
 	}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/*
+	 * 
+	 */
 
-	//////////////////////////////////////////////DA END////////////OF/////////////////CLASS///////////////////////////////////////////////////////////////////////
+	/*public static boolean validateDoubleinput(boolean verifyDouble) {
+		boolean doubleValidated = false;
+		
+		
+		return doubleValidated;
+	} */
+//////////////////////////////////////////////////////DA END////////////OF/////////////////CLASS///////////////////////////////////////////////////////////////////////
 }
